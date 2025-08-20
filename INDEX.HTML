@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chocolate Cake Recipe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .recipe-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      max-width: 450px;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .recipe-card h2 {
+      color: #6b2d2d;
+    }
+
+    .recipe-card img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+
+    .recipe-card img:hover {
+      transform: scale(1.05);
+    }
+
+    ul {
+      text-align: left;
+    }
+
+    li {
+      margin: 6px 0;
+      transition: color 0.3s;
+    }
+
+    li:hover {
+      color: #d2691e;
+    }
+
+    .button {
+      background: #6b2d2d;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 5px;
+    }
+
+    .button:hover {
+      background: #8b3d3d;
+    }
+
+    .steps {
+      display: none;
+      text-align: left;
+      margin-top: 15px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .progress {
+      margin-top: 15px;
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #6b2d2d;
+      transition: width 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-card" id="recipeCard">
+    <h2>Chocolate Cake 🍰</h2>
+     <img src="cake.jpg" alt="Chocolate Cake">
+    <h3>Ingredients</h3>
+    <button class="button" onclick="toggleIngredients()">Show Ingredients</button>
+    <ul id="ingredients" style="display:none;">
+      <li>2 cups flour</li>
+      <li>1 ½ cups sugar</li>
+      <li>¾ cup cocoa powder</li>
+      <li>2 eggs</li>
+      <li>1 cup milk</li>
+      <li>1 tsp baking powder</li>
+      <li>½ cup butter</li>
+    </ul>
+
+    <h3>Preparation</h3>
+    <p>Prep Time: 20 min | Cook Time: 30 min | Serves: 6</p>
+
+    <!-- Buttons -->
+    <button class="button" onclick="startCooking()">Start Cooking</button>
+    <button class="button" onclick="nextStep()">Next</button>
+    <button class="button" onclick="printRecipe()">Print Recipe</button>
+
+    <!-- Steps -->
+    <div class="steps" id="steps">
+      <p id="step-text"></p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleIngredients() {
+      let ing = document.getElementById("ingredients");
+      if (ing.style.display === "none") {
+        ing.style.display = "block";
+      } else {
+        ing.style.display = "none";
+      }
+    }
+
+    let steps = [
+      "Step 1: Preheat oven to 180°C (350°F).",
+      "Step 2: Mix flour, cocoa, and baking powder.",
+      "Step 3: Whisk eggs, sugar, and butter until fluffy.",
+      "Step 4: Combine dry and wet ingredients, add milk.",
+      "Step 5: Pour batter into a greased cake tin.",
+      "Step 6: Bake for 30 minutes and let it cool.",
+      "Step 7: Frost with chocolate cream and serve!"
+    ];
+    let currentStep = -1;
+
+    function startCooking() {
+      currentStep = 0;
+      showStep();
+    }
+
+    function nextStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep();
+      } else {
+        alert("All steps completed! 🎉 Enjoy your cake 🍰");
+      }
+    }
+
+    function showStep() {
+      let stepBox = document.getElementById("steps");
+      let stepText = document.getElementById("step-text");
+      let progressBar = document.getElementById("progress-bar");
+
+      stepBox.style.display = "block";
+      stepText.innerText = steps[currentStep];
+      
+      let progress = ((currentStep+1)/steps.length) * 100;
+      progressBar.style.width = progress + "%";
+    }
+
+    function printRecipe() {
+      let recipeCard = document.getElementById("recipeCard").innerHTML;
+      let original = document.body.innerHTML;
+      document.body.innerHTML = recipeCard;
+      window.print();
+      document.body.innerHTML = original;
+    }
+  </script>
+</body>
+</html>
